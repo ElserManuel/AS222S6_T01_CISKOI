@@ -1,0 +1,186 @@
+{
+	"compiler": {
+		"version": "0.8.26+commit.8a97fa7a"
+	},
+	"language": "Solidity",
+	"output": {
+		"abi": [
+			{
+				"inputs": [],
+				"stateMutability": "payable",
+				"type": "constructor"
+			},
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": true,
+						"internalType": "address",
+						"name": "sender",
+						"type": "address"
+					},
+					{
+						"indexed": false,
+						"internalType": "uint256",
+						"name": "amount",
+						"type": "uint256"
+					}
+				],
+				"name": "Deposit",
+				"type": "event"
+			},
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": true,
+						"internalType": "address",
+						"name": "receiver",
+						"type": "address"
+					},
+					{
+						"indexed": false,
+						"internalType": "uint256",
+						"name": "amount",
+						"type": "uint256"
+					}
+				],
+				"name": "Transfer",
+				"type": "event"
+			},
+			{
+				"inputs": [],
+				"name": "getBalance",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "owner",
+				"outputs": [
+					{
+						"internalType": "address",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address payable",
+						"name": "_to",
+						"type": "address"
+					},
+					{
+						"internalType": "uint256",
+						"name": "_amount",
+						"type": "uint256"
+					}
+				],
+				"name": "sendEther",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"stateMutability": "payable",
+				"type": "receive"
+			}
+		],
+		"devdoc": {
+			"author": "Elser Manuel",
+			"details": "Solo el propietario puede retirar fondos. Todas las transacciones quedan registradas en eventos.",
+			"events": {
+				"Deposit(address,uint256)": {
+					"params": {
+						"amount": "Cantidad de ETH recibida (en wei)",
+						"sender": "Dirección que envía el ETH"
+					}
+				},
+				"Transfer(address,uint256)": {
+					"params": {
+						"amount": "Cantidad de ETH enviada (en wei)",
+						"receiver": "Dirección que recibe el ETH"
+					}
+				}
+			},
+			"kind": "dev",
+			"methods": {
+				"getBalance()": {
+					"returns": {
+						"_0": "balance ETH disponible en wei"
+					}
+				},
+				"sendEther(address,uint256)": {
+					"details": "La función verifica que el emisor sea el propietario y que haya saldo suficiente",
+					"params": {
+						"_amount": "Cantidad de ETH a transferir en wei",
+						"_to": "Dirección a la que se enviará el ETH"
+					}
+				}
+			},
+			"title": "Ciskoi Wallet - Contrato inteligente de billetera descentralizada en Ethereum",
+			"version": 1
+		},
+		"userdoc": {
+			"events": {
+				"Deposit(address,uint256)": {
+					"notice": "Evento que registra un depósito de ETH en la billetera"
+				},
+				"Transfer(address,uint256)": {
+					"notice": "Evento que registra un envío de ETH desde la billetera"
+				}
+			},
+			"kind": "user",
+			"methods": {
+				"constructor": {
+					"notice": "Se asigna como propietario a quien despliega el contrato"
+				},
+				"getBalance()": {
+					"notice": "Devuelve el saldo actual en el contrato inteligente"
+				},
+				"sendEther(address,uint256)": {
+					"notice": "Permite al propietario enviar ETH a otra dirección"
+				}
+			},
+			"notice": "Este contrato permite enviar, recibir y gestionar ETH de forma segura.",
+			"version": 1
+		}
+	},
+	"settings": {
+		"compilationTarget": {
+			"CiskoiWallet.sol": "CiskoiWallet"
+		},
+		"evmVersion": "cancun",
+		"libraries": {},
+		"metadata": {
+			"bytecodeHash": "ipfs"
+		},
+		"optimizer": {
+			"enabled": false,
+			"runs": 200
+		},
+		"remappings": []
+	},
+	"sources": {
+		"CiskoiWallet.sol": {
+			"keccak256": "0xb9cde2f89c6fc560f2a3e060ae6b2dd07200d85bf789eb22ed3481aba02e29c3",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://f771aa49e052bf8c0d5b48c353182cc2cff14ab0a9d6c03be7938d8dc9ad617a",
+				"dweb:/ipfs/QmNtgtjoucube2LJvqUnSSFc4WjbgMD82piyAPUHG5jVpG"
+			]
+		}
+	},
+	"version": 1
+}
