@@ -1,6 +1,6 @@
 {
 	"compiler": {
-		"version": "0.8.26+commit.8a97fa7a"
+		"version": "0.8.30+commit.73712a01"
 	},
 	"language": "Solidity",
 	"output": {
@@ -16,6 +16,31 @@
 					{
 						"indexed": true,
 						"internalType": "address",
+						"name": "approver",
+						"type": "address"
+					},
+					{
+						"indexed": true,
+						"internalType": "address",
+						"name": "approved",
+						"type": "address"
+					},
+					{
+						"indexed": false,
+						"internalType": "bool",
+						"name": "status",
+						"type": "bool"
+					}
+				],
+				"name": "AddressApprovalChanged",
+				"type": "event"
+			},
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": true,
+						"internalType": "address",
 						"name": "sender",
 						"type": "address"
 					},
@@ -24,9 +49,40 @@
 						"internalType": "uint256",
 						"name": "amount",
 						"type": "uint256"
+					},
+					{
+						"indexed": false,
+						"internalType": "uint256",
+						"name": "balance",
+						"type": "uint256"
 					}
 				],
 				"name": "Deposit",
+				"type": "event"
+			},
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": true,
+						"internalType": "address",
+						"name": "changedBy",
+						"type": "address"
+					},
+					{
+						"indexed": false,
+						"internalType": "string",
+						"name": "settingName",
+						"type": "string"
+					},
+					{
+						"indexed": false,
+						"internalType": "bytes",
+						"name": "newValue",
+						"type": "bytes"
+					}
+				],
+				"name": "SettingChanged",
 				"type": "event"
 			},
 			{
@@ -43,10 +99,115 @@
 						"internalType": "uint256",
 						"name": "amount",
 						"type": "uint256"
+					},
+					{
+						"indexed": false,
+						"internalType": "string",
+						"name": "description",
+						"type": "string"
+					},
+					{
+						"indexed": false,
+						"internalType": "uint256",
+						"name": "transactionId",
+						"type": "uint256"
 					}
 				],
 				"name": "Transfer",
 				"type": "event"
+			},
+			{
+				"stateMutability": "payable",
+				"type": "fallback"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "_address",
+						"type": "address"
+					},
+					{
+						"internalType": "bool",
+						"name": "_approved",
+						"type": "bool"
+					}
+				],
+				"name": "approveAddress",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"name": "approvedAddresses",
+				"outputs": [
+					{
+						"internalType": "bool",
+						"name": "",
+						"type": "bool"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "backupOwner",
+				"outputs": [
+					{
+						"internalType": "address",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "dailyLimit",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "dailySpent",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address payable",
+						"name": "_to",
+						"type": "address"
+					}
+				],
+				"name": "emergencyWithdraw",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
 			},
 			{
 				"inputs": [],
@@ -56,6 +217,72 @@
 						"internalType": "uint256",
 						"name": "",
 						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "getTransactionHistory",
+				"outputs": [
+					{
+						"components": [
+							{
+								"internalType": "address",
+								"name": "to",
+								"type": "address"
+							},
+							{
+								"internalType": "uint256",
+								"name": "amount",
+								"type": "uint256"
+							},
+							{
+								"internalType": "uint256",
+								"name": "timestamp",
+								"type": "uint256"
+							},
+							{
+								"internalType": "string",
+								"name": "description",
+								"type": "string"
+							},
+							{
+								"internalType": "bool",
+								"name": "executed",
+								"type": "bool"
+							}
+						],
+						"internalType": "struct CiskoiWallet.Transaction[]",
+						"name": "",
+						"type": "tuple[]"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "lastResetDay",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "multiSigEnabled",
+				"outputs": [
+					{
+						"internalType": "bool",
+						"name": "",
+						"type": "bool"
 					}
 				],
 				"stateMutability": "view",
@@ -85,11 +312,100 @@
 						"internalType": "uint256",
 						"name": "_amount",
 						"type": "uint256"
+					},
+					{
+						"internalType": "string",
+						"name": "_description",
+						"type": "string"
 					}
 				],
 				"name": "sendEther",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "_backupOwner",
+						"type": "address"
+					}
+				],
+				"name": "setBackupOwner",
 				"outputs": [],
 				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "uint256",
+						"name": "_limit",
+						"type": "uint256"
+					}
+				],
+				"name": "setDailyLimit",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "bool",
+						"name": "_enabled",
+						"type": "bool"
+					}
+				],
+				"name": "setMultiSigEnabled",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"name": "transactionHistory",
+				"outputs": [
+					{
+						"internalType": "address",
+						"name": "to",
+						"type": "address"
+					},
+					{
+						"internalType": "uint256",
+						"name": "amount",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "timestamp",
+						"type": "uint256"
+					},
+					{
+						"internalType": "string",
+						"name": "description",
+						"type": "string"
+					},
+					{
+						"internalType": "bool",
+						"name": "executed",
+						"type": "bool"
+					}
+				],
+				"stateMutability": "view",
 				"type": "function"
 			},
 			{
@@ -99,33 +415,88 @@
 		],
 		"devdoc": {
 			"author": "Elser Manuel",
-			"details": "Solo el propietario puede retirar fondos. Todas las transacciones quedan registradas en eventos.",
+			"details": "Implementa sistema de límites diarios, multifirma opcional y registro detallado de transacciones",
 			"events": {
-				"Deposit(address,uint256)": {
+				"AddressApprovalChanged(address,address,bool)": {
+					"params": {
+						"approved": "Dirección aprobada",
+						"approver": "Dirección que realiza la aprobación",
+						"status": "Estado de aprobación (true/false)"
+					}
+				},
+				"Deposit(address,uint256,uint256)": {
 					"params": {
 						"amount": "Cantidad de ETH recibida (en wei)",
+						"balance": "Saldo actualizado después del depósito",
 						"sender": "Dirección que envía el ETH"
 					}
 				},
-				"Transfer(address,uint256)": {
+				"SettingChanged(address,string,bytes)": {
+					"params": {
+						"changedBy": "Dirección que realizó el cambio",
+						"newValue": "Nuevo valor (codificado como bytes)",
+						"settingName": "Nombre de la configuración cambiada"
+					}
+				},
+				"Transfer(address,uint256,string,uint256)": {
 					"params": {
 						"amount": "Cantidad de ETH enviada (en wei)",
-						"receiver": "Dirección que recibe el ETH"
+						"description": "Descripción opcional de la transacción",
+						"receiver": "Dirección que recibe el ETH",
+						"transactionId": "ID de la transacción en el historial"
 					}
 				}
 			},
 			"kind": "dev",
 			"methods": {
+				"approveAddress(address,bool)": {
+					"params": {
+						"_address": "Dirección a aprobar o desaprobar",
+						"_approved": "Estado de aprobación"
+					}
+				},
+				"constructor": {
+					"details": "Inicializa los límites diarios y otras configuraciones"
+				},
+				"emergencyWithdraw(address)": {
+					"params": {
+						"_to": "Dirección a la que se transferirán los fondos"
+					}
+				},
 				"getBalance()": {
 					"returns": {
 						"_0": "balance ETH disponible en wei"
 					}
 				},
-				"sendEther(address,uint256)": {
-					"details": "La función verifica que el emisor sea el propietario y que haya saldo suficiente",
+				"getTransactionHistory()": {
+					"returns": {
+						"_0": "Arreglo de todas las transacciones realizadas"
+					}
+				},
+				"sendEther(address,uint256,string)": {
+					"details": "Verifica límites diarios y actualiza el historial de transacciones",
 					"params": {
 						"_amount": "Cantidad de ETH a transferir en wei",
+						"_description": "Descripción opcional de la transacción",
 						"_to": "Dirección a la que se enviará el ETH"
+					},
+					"returns": {
+						"_0": "transactionId ID de la transacción en el historial"
+					}
+				},
+				"setBackupOwner(address)": {
+					"params": {
+						"_backupOwner": "Dirección del propietario de respaldo"
+					}
+				},
+				"setDailyLimit(uint256)": {
+					"params": {
+						"_limit": "Nuevo límite diario en wei"
+					}
+				},
+				"setMultiSigEnabled(bool)": {
+					"params": {
+						"_enabled": "Estado de la funcionalidad multifirma"
 					}
 				}
 			},
@@ -134,26 +505,50 @@
 		},
 		"userdoc": {
 			"events": {
-				"Deposit(address,uint256)": {
+				"AddressApprovalChanged(address,address,bool)": {
+					"notice": "Evento que registra la aprobación de una dirección para transacciones multifirma"
+				},
+				"Deposit(address,uint256,uint256)": {
 					"notice": "Evento que registra un depósito de ETH en la billetera"
 				},
-				"Transfer(address,uint256)": {
+				"SettingChanged(address,string,bytes)": {
+					"notice": "Evento que registra un cambio en la configuración de la billetera"
+				},
+				"Transfer(address,uint256,string,uint256)": {
 					"notice": "Evento que registra un envío de ETH desde la billetera"
 				}
 			},
 			"kind": "user",
 			"methods": {
+				"approveAddress(address,bool)": {
+					"notice": "Aprueba o desaprueba una dirección para transacciones multifirma"
+				},
 				"constructor": {
 					"notice": "Se asigna como propietario a quien despliega el contrato"
+				},
+				"emergencyWithdraw(address)": {
+					"notice": "Función de emergencia que permite al propietario transferir todos los fondos"
 				},
 				"getBalance()": {
 					"notice": "Devuelve el saldo actual en el contrato inteligente"
 				},
-				"sendEther(address,uint256)": {
+				"getTransactionHistory()": {
+					"notice": "Devuelve el historial completo de transacciones"
+				},
+				"sendEther(address,uint256,string)": {
 					"notice": "Permite al propietario enviar ETH a otra dirección"
+				},
+				"setBackupOwner(address)": {
+					"notice": "Permite al propietario configurar un propietario de respaldo"
+				},
+				"setDailyLimit(uint256)": {
+					"notice": "Permite al propietario establecer un límite diario de gasto"
+				},
+				"setMultiSigEnabled(bool)": {
+					"notice": "Activa o desactiva la funcionalidad de multifirma"
 				}
 			},
-			"notice": "Este contrato permite enviar, recibir y gestionar ETH de forma segura.",
+			"notice": "Este contrato permite administrar ETH de forma segura con características adicionales de seguridad",
 			"version": 1
 		}
 	},
@@ -161,7 +556,7 @@
 		"compilationTarget": {
 			"CiskoiWallet.sol": "CiskoiWallet"
 		},
-		"evmVersion": "cancun",
+		"evmVersion": "prague",
 		"libraries": {},
 		"metadata": {
 			"bytecodeHash": "ipfs"
@@ -174,11 +569,11 @@
 	},
 	"sources": {
 		"CiskoiWallet.sol": {
-			"keccak256": "0xb9cde2f89c6fc560f2a3e060ae6b2dd07200d85bf789eb22ed3481aba02e29c3",
+			"keccak256": "0x3f9fc5c093ecacfe146ec6a130d437e6362fe4d97950f7b163064c02fb720ee7",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://f771aa49e052bf8c0d5b48c353182cc2cff14ab0a9d6c03be7938d8dc9ad617a",
-				"dweb:/ipfs/QmNtgtjoucube2LJvqUnSSFc4WjbgMD82piyAPUHG5jVpG"
+				"bzz-raw://de8fa1c109f6b9115132955e2996373c1adf58c42f85bd40c8eaf0f0eee08e23",
+				"dweb:/ipfs/Qmbnin1WoQXTRghkkYpvGSh3Z3k1Lx9pMDUZniKnRfgaBm"
 			]
 		}
 	},
